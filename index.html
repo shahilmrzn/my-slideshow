@@ -1,354 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Romantic Slideshow with Heart Effects</title>
-<!-- Google Fonts for romantic script -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0; padding: 0;
-  }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f3e5dc;
-    overflow: hidden;
-  }
-  .slideshow-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-  }
-  .slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-    background-size: cover;
-    background-position: center;
-    animation: fadeIn 1s ease-in-out;
-    transition: background-color 1s ease;
-  }
-  .slide.active {
-    display: flex;
-  }
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-  /* First slide specific styling */
-  .slide1 .text {
-    font-size: 3.8em;
-    font-weight: 900;
-    font-family: 'Dancing Script', cursive;
-    background: linear-gradient(45deg, #ff758c, #ff7eb3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 8px rgba(255, 118, 140, 0.7);
-    letter-spacing: 0.1em;
-    animation: pulse 3s infinite;
-    white-space: nowrap;
-    position: relative;
-    z-index: 3;
-    margin: 20px 0;
-  }
-  @keyframes pulse {
-    0%, 100% {
-      text-shadow: 2px 2px 8px rgba(255, 118, 140, 0.7);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Romantic Slideshow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    50% {
-      text-shadow: 4px 4px 12px rgba(255, 118, 140, 1);
-    }
-  }
-  .sticker-gif {
-    max-width: 180px;
-    height: auto;
-    z-index: 3;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(139, 58, 58, 0.5);
-    mix-blend-mode: multiply;
-    background: transparent;
-    animation: float 4s ease-in-out infinite;
-    position: relative;
-    cursor: pointer;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-  .hearts-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    overflow: visible;
-    z-index: 1;
-  }
-  .heart {
-    position: absolute;
-    font-size: 28px;
-    color: #f06292;
-    opacity: 0;
-    user-select: none;
-    animation-name: floatUp;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
-    animation-iteration-count: 1;
-  }
-  @keyframes floatUp {
-    0% {
-      transform: translateY(100vh) scale(1);
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.8;
-    }
-    100% {
-      transform: translateY(40vh) scale(1.3);
-      opacity: 0;
-    }
-  }
 
-  /* Slide 1.5 popup styling */
-  .slide1_5 {
-    background-color: #d9ecff;
-    position: relative;
-    overflow: hidden;
-    flex-direction: column;
-    text-align: center;
-  }
-  .clouds {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 140px;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .cloud {
-    position: absolute;
-    top: 20px;
-    background: url('https://i.ibb.co/PrzNypG/cloud.png') no-repeat;
-    background-size: contain;
-    width: 200px;
-    height: 100px;
-    opacity: 0.3;
-    animation: cloudMove linear infinite;
-  }
-  .cloud:nth-child(1) {
-    left: -220px;
-    animation-duration: 50s;
-    top: 10px;
-  }
-  .cloud:nth-child(2) {
-    left: -350px;
-    animation-duration: 70s;
-    top: 40px;
-  }
-  .cloud:nth-child(3) {
-    left: -500px;
-    animation-duration: 60s;
-    top: 15px;
-  }
-  @keyframes cloudMove {
-    0% { left: -250px; }
-    100% { left: 110%; }
-  }
-  .slide1_5 .popup-gif {
-    width: 80vw;
-    max-width: 600px;
-    border-radius: 0;
-    box-shadow: none;
-    mix-blend-mode: screen;
-    z-index: 5;
-    margin-bottom: 30px;
-    transition: opacity 1s ease;
-    cursor: default;
-  }
-  .popup-hidden {
-    opacity: 0 !important;
-    pointer-events: none;
-  }
-  .slide1_5 .plane-gif {
-    width: 180px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 1s ease, transform 1s ease;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(139, 58, 58, 0.5);
-    animation: float 4s ease-in-out infinite;
-    z-index: 6;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.7);
-  }
-  .slide1_5.plane-visible .plane-gif {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  /* Slide 2 (Sorry slide) */
-  .slide2 {
-    background: #fdeae7;
-    position: relative;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .slide2 .text {
-    font-size: 3.5em;
-    color: #8b3a3a;
-    font-weight: bold;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    margin: 20px 0;
-    font-family: 'Lucida Handwriting', cursive;
-    position: relative;
-    z-index: 3;
-  }
-  .slide2 .top-right-sticker {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 220px;
-    z-index: 3;
-  }
-  .slide2 .bottom-center-sticker {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
-    z-index: 3;
-  }
-  .slide2 .click-sticker {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 140px;
-    cursor: pointer;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(139, 58, 58, 0.6);
-    z-index: 4;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  /* Slide 3 (For you slide) */
-  .slide3 {
-    background-color: #fff9f0;
-    position: relative;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow: hidden;
-  }
-  .slide3 .text {
-    font-size: 4em;
-    font-weight: 700;
-    color: #8b3a3a;
-    font-family: 'Lucida Handwriting', cursive;
-    margin-bottom: 20px;
-    z-index: 3;
-  }
-  .slide3 .sticker-gif {
-    max-width: 300px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(139, 58, 58, 0.6);
-    animation: float 4s ease-in-out infinite;
-    mix-blend-mode: multiply;
-    background: transparent;
-  }
-  .slide3 .next-button {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 140px;
-    cursor: pointer;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(139, 58, 58, 0.8);
-    z-index: 5;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  /* Slide 4 (Final romantic slide) */
-  .slide4 {
-    background-color: #ffe6e1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Lucida Handwriting', cursive;
-    font-size: 3.5em;
-    color: #8b3a3a;
-    flex-direction: column;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  /* Romantic text fancy style */
-  .slide4 .love-text {
-    animation: glow 2s ease-in-out infinite alternate;
-    text-shadow:
-      0 0 5px #ff7eb3,
-      0 0 10px #ff7eb3,
-      0 0 20px #ff758c,
-      0 0 30px #ff758c,
-      0 0 40px #ff5577,
-      0 0 55px #ff5577,
-      0 0 75px #ff2a55;
-  }
-  /* Heart and bouquet animations */
-  .slide4 .emoji {
-    font-size: 1.5em;
-    margin: 0 8px;
-    animation: floatUpSmall 3s ease-in-out infinite;
-    display: inline-block;
-  }
-  .slide4 .emoji.bouquet {
-    animation-delay: 0.5s;
-  }
-
-  @keyframes glow {
-    0% {
-      text-shadow:
-      0 0 5px #ff7eb3,
-      0 0 10px #ff7eb3,
-      0 0 20px #ff758c,
-      0 0 30px #ff758c,
-      0 0 40px #ff5577,
-      0 0 55px #ff5577,
-      0 0 75px #ff2a55;
-      color: #ff758c;
+    body {
+      font-family: 'Dancing Script', cursive;
+      overflow: hidden;
+      background-color: #fff0f5;
     }
-    100% {
-      text-shadow:
-      0 0 15px #ff7eb3,
-      0 0 20px #ff7eb3,
-      0 0 30px #ff758c,
-      0 0 40px #ff758c,
-      0 0 50px #ff5577,
-      0 0 65px #ff5577,
-      0 0 85px #ff2a55;
-      color: #ff2a55;
+
+    .slideshow-container {
+      display: none;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
     }
-  }
-  @keyframes floatUpSmall {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-</style>
+
+    .slide {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 3em;
+      color: #ff69b4;
+      padding: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .text {
+      z-index: 2;
+    }
+
+    .sticker-gif,
+    .next-button,
+    .click-sticker,
+    .top-right-sticker,
+    .bottom-center-sticker,
+    .popup-gif,
+    .plane-gif {
+      position: absolute;
+      width: 150px;
+      cursor: pointer;
+    }
+
+    .next-button,
+    .click-sticker {
+      width: 120px;
+      bottom: 10px;
+      right: 10px;
+    }
+
+    .sticker-gif {
+      bottom: 70px;
+      right: 10px;
+    }
+
+    .top-right-sticker {
+      top: 10px;
+      right: 10px;
+    }
+
+    .bottom-center-sticker {
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .popup-gif {
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .popup-hidden {
+      display: none;
+    }
+
+    .plane-gif {
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .hearts-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+    }
+
+    .heart {
+      position: absolute;
+      animation: floatUp 3s linear forwards;
+      font-size: 2rem;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+
+    .clouds .cloud {
+      position: absolute;
+      width: 200px;
+      height: 80px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: cloudMove 20s linear infinite;
+    }
+
+    .clouds .cloud:nth-child(1) {
+      top: 10%;
+      left: -20%;
+      animation-delay: 0s;
+    }
+
+    .clouds .cloud:nth-child(2) {
+      top: 30%;
+      left: -30%;
+      animation-delay: 5s;
+    }
+
+    .clouds .cloud:nth-child(3) {
+      top: 50%;
+      left: -40%;
+      animation-delay: 10s;
+    }
+
+    @keyframes cloudMove {
+      0% {
+        left: -30%;
+      }
+      100% {
+        left: 130%;
+      }
+    }
+
+    .love-text {
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 4px #f0f;
+    }
+
+    .emoji {
+      font-size: 4rem;
+    }
+
+    .bouquet {
+      margin-left: 10px;
+    }
+
+    /* Password Overlay */
+    #password-screen {
+      position: fixed;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      width: 100vw;
+      height: 100vh;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #password-screen h2 {
+      font-size: 2.5rem;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    #password-screen input {
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      text-align: center;
+    }
+
+    #password-screen button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Password screen -->
+  <div id="password-screen">
+    <h2>Enter Password to Continue</h2>
+    <input type="password" id="password-input" placeholder="Password..." />
+    <button onclick="checkPassword()">Unlock</button>
+  </div>
+
+  <!-- Actual slideshow -->
   <div class="slideshow-container">
 
     <!-- Slide 1 -->
@@ -363,7 +240,7 @@
       <div class="text">Hello my love</div>
     </div>
 
-    <!-- Slide 1.5: Popup animation slide -->
+    <!-- Slide 1.5 -->
     <div class="slide slide1_5">
       <div class="clouds">
         <div class="cloud"></div>
@@ -374,15 +251,15 @@
       <img src="https://media3.giphy.com/media/CdO2oiNZ8Z492BUWkM/giphy.gif" alt="Plane Sticker" class="plane-gif" id="plane-gif" />
     </div>
 
-    <!-- Slide 2 (Sorry slide) -->
+    <!-- Slide 2 -->
     <div class="slide slide2">
-      <div class="text">I m very sorry maile aaile samma gare ko sab galti ko lagi. Aaba bata dhyan rakh ne xu rw sake sama hje lai sadhai khusi rakh ne xu. </div>
+      <div class="text">i m Sorry for all my mistakes, maile aaile samma gare ko sab galti ka lagi mah mafffi mag da xu rw try gar xu aaudo din haru ma aafu lai badalerw hjr ko lagi yeauta ramro manxey banne xu rw aafu le sak do maya dine xu ra sake samma khusi banayerw rakh ne xu. aasa xa mero sab galti haru ka lagi hje le malai maff gari dinu hune xa.</div>
       <img src="https://media2.giphy.com/media/MY1MvScvz1CCCnbVbz/giphy.gif" alt="Sorry Sticker 1" class="top-right-sticker" />
       <img src="https://media4.giphy.com/media/sch8YfxqMOjxWL4K0k/giphy.gif" alt="Sorry Sticker 2" class="bottom-center-sticker" />
       <img src="https://media.giphy.com/media/a5eSudlPb6lEOMnWtJ/giphy.gif" alt="Click Sticker" class="click-sticker" id="slide2-click-sticker" />
     </div>
 
-    <!-- Slide 3 (For you slide) -->
+    <!-- Slide 3 -->
     <div class="slide slide3">
       <div class="text">For you</div>
       <img src="https://media.giphy.com/media/jZ44syKN6NQWz78tgp/giphy.gif" alt="For you Sticker" class="sticker-gif" />
@@ -394,7 +271,7 @@
       />
     </div>
 
-    <!-- Slide 4 (Final romantic slide) -->
+    <!-- Slide 4 -->
     <div class="slide slide4">
       <div class="love-text">
         I love you 
@@ -402,38 +279,29 @@
         <span class="emoji bouquet">💐</span>
       </div>
     </div>
-
   </div>
 
 <script>
-  let currentSlide = 0;
+  const correctPassword = "2063/03/02";
+
+  function checkPassword() {
+    const userInput = document.getElementById("password-input").value;
+    if (userInput === correctPassword) {
+      document.getElementById("password-screen").style.display = "none";
+      document.querySelector(".slideshow-container").style.display = "block";
+    } else {
+      alert("Wrong password. Try again.");
+    }
+  }
+
   const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
       slide.classList.toggle('active', i === index);
     });
     currentSlide = index;
-
-    if(index === 1){
-      const slide15 = slides[1];
-      slide15.style.backgroundColor = '#d9ecff'; // lighter blue
-      slide15.classList.remove('plane-visible');
-
-      const popup = slide15.querySelector('#popup-gif');
-      const plane = slide15.querySelector('#plane-gif');
-
-      popup.classList.remove('popup-hidden');
-      plane.style.opacity = '0';
-      plane.style.pointerEvents = 'none';
-
-      setTimeout(() => {
-        popup.classList.add('popup-hidden');
-        slide15.classList.add('plane-visible');
-        plane.style.opacity = '1';
-        plane.style.pointerEvents = 'auto';
-      }, 4000);
-    }
   }
 
   const heartsContainer = document.getElementById('hearts-container');
@@ -447,29 +315,17 @@
     heartsContainer.appendChild(heart);
     heart.addEventListener('animationend', () => { heart.remove(); });
   }
+
   setInterval(() => {
     if(document.querySelector('.slide1.active')){
       createHeart();
     }
   }, 400);
 
-  document.getElementById('slide1-sticker').addEventListener('click', () => {
-    showSlide(1); // to popup slide
-  });
-
-  document.getElementById('plane-gif').addEventListener('click', () => {
-    const slide15 = slides[1];
-    slide15.style.backgroundColor = '#fff9f0';
-    showSlide(2); // to Sorry slide
-  });
-
-  document.getElementById('slide2-click-sticker').addEventListener('click', () => {
-    showSlide(3); // to For you slide
-  });
-
-  document.getElementById('next-button').addEventListener('click', () => {
-    showSlide(4); // to final romantic slide
-  });
+  document.getElementById('slide1-sticker').addEventListener('click', () => showSlide(1));
+  document.getElementById('plane-gif').addEventListener('click', () => showSlide(2));
+  document.getElementById('slide2-click-sticker').addEventListener('click', () => showSlide(3));
+  document.getElementById('next-button').addEventListener('click', () => showSlide(4));
 </script>
 </body>
 </html>
